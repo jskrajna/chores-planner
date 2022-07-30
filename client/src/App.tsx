@@ -3,7 +3,8 @@ import './assets/global.css';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { yellow, deepPurple } from '@mui/material/colors';
 
-import { AddChore } from './components/AddChore/';
+import { AddChore } from './components/AddChore';
+
 
 const outerTheme = createTheme({
   palette: {

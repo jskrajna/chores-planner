@@ -1,0 +1,20 @@
+{
+  "name": "chores_api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "jskrajna",
+  "license": "MIT",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/index.js",
+    "dev": "nodemon --exec npm run restart"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.11.9"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  },
+  "type": "module"
+}
