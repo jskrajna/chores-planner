@@ -5,11 +5,10 @@ import AddTaskOutlinedIcon from '@mui/icons-material/AddTaskOutlined';
 import { ChoresSelect } from '../ChoresSelect';
 import { fetchData } from '../../utils/fetchData';
 
-type Category = {
+
+export type CategoryType = {
     _id: string,
     name: string;
-    category: string,
-    user: string,
 }
 
 const KEY = 'category' as const;
@@ -17,7 +16,7 @@ const KEY = 'category' as const;
 const AddChore = () => {
     const [value, setValue] = useState('');
     const [chores, setChores] = useState<{}[]>([]);
-    const [categoriesList, setCategoriesList] = useState<any[]>([]);
+    const [categoriesList, setCategoriesList] = useState<CategoryType[]>([]);
     const [error, setErrors] = useState(false);
     const nameInput = useRef(null);
 
@@ -32,24 +31,31 @@ const AddChore = () => {
         return fetchedData.some(({ name, category }) => name === typedName && category === typedCategory);
     }
 
-
     useEffect(() => {
         (async function () {
-            let chores = await fetchData('chores');
-            const categories = chores.map((entry: Category) => {
-                return entry[KEY];
-            });
-
+            const categories = await fetchData('categories.json');
             setCategoriesList(categories);
         })();
     }, [])
 
+
+    // useEffect(() => {
+    //     (async function () {
+    //         let chores = await fetchData('chores');
+    //         const categories = chores.map((entry: Category) => {
+    //             return entry[KEY];
+    //         });
+
+    //         setCategoriesList(categories);
+    //     })();
+    // }, [])
+
     const handleChoreAdd = (event: React.MouseEvent<HTMLButtonElement>) => {
         (async function () {
-            let chores = await fetchData('chores');
-            console.log(validateInput({
-                name: 'Dishwash', category: 'Kitchen'
-            }, chores));
+            // let chores = await fetchData('chores');
+            // console.log(validateInput({
+            //     name: 'Dishwash', category: 'Kitchen'
+            // }, chores));
 
             // if !validateInput() return;
             // const validateInput = () => {

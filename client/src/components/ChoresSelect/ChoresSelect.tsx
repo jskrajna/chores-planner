@@ -1,12 +1,10 @@
 import { useState } from 'react';
 import { Select } from '@mui/material';
 import { FormControl, InputLabel, MenuItem } from '@mui/material/';
+import { CategoryType } from '../AddChore';
 
-type SelectList = {
-    list: string[],
-}
-
-const ChoresSelect = ({ list }: SelectList) => {
+const ChoresSelect = ({ list }: any) => {
+    const [category, setCategory] = useState('');
 
 
     // 1. validation stage: is anything written to "Name" field and selected in "Category"
@@ -20,14 +18,14 @@ const ChoresSelect = ({ list }: SelectList) => {
             <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={''}
+                value={category}
                 name={'category'}
-                // onChange={(e) => setCategory(e.target.value)}
+                onChange={(e) => setCategory(e.target.value)}
                 label="Category"
 
             >
-                {list.map((category: string) => {
-                    return <MenuItem key={category} value={category}>{category}</MenuItem>
+                {list.map(({ _id, name }: CategoryType) => {
+                    return <MenuItem key={name} value={name}>{name}</MenuItem>
                 })}
             </Select>
         </FormControl>
