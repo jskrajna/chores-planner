@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Box, Button, TextField, IconButton } from '@mui/material/';
 import AddTaskOutlinedIcon from '@mui/icons-material/AddTaskOutlined';
 import { ChoresSelect } from '../ChoresSelect';
-import { fetchData } from '../../utils/fetchData';
+import useFetch from '../../utils/useFetch';
 
 
 export type CategoryType = {
@@ -16,39 +16,24 @@ const KEY = 'category' as const;
 const AddChore = () => {
     const [value, setValue] = useState('');
     const [chores, setChores] = useState<{}[]>([]);
-    const [categoriesList, setCategoriesList] = useState<CategoryType[]>([]);
-    const [error, setErrors] = useState(false);
+    // const [categoriesList, setCategoriesList] = useState<CategoryType[]>([]);
+    const { data, loading, error } = useFetch('categories.json');
     const nameInput = useRef(null);
 
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue(event.target.value);
-    }
+    console.log(data);
 
-    const validateInput = (typedValues: { name: string, category: string }, fetchedData: []) => {
-        if (Object.values(typedValues).some((val) => val !== '')) return;
+    // const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setValue(event.target.value);
+    // }
 
-        const { name: typedName, category: typedCategory } = typedValues;
-        return fetchedData.some(({ name, category }) => name === typedName && category === typedCategory);
-    }
+    // const validateInput = (typedValues: { name: string, category: string }, fetchedData: []) => {
+    //     if (Object.values(typedValues).some((val) => val !== '')) return;
 
-    useEffect(() => {
-        (async function () {
-            const categories = await fetchData('categories.json');
-            setCategoriesList(categories);
-        })();
-    }, [])
+    //     const { name: typedName, category: typedCategory } = typedValues;
+    //     return fetchedData.some(({ name, category }) => name === typedName && category === typedCategory);
+    // }
 
 
-    // useEffect(() => {
-    //     (async function () {
-    //         let chores = await fetchData('chores');
-    //         const categories = chores.map((entry: Category) => {
-    //             return entry[KEY];
-    //         });
-
-    //         setCategoriesList(categories);
-    //     })();
-    // }, [])
 
     const handleChoreAdd = (event: React.MouseEvent<HTMLButtonElement>) => {
         (async function () {
@@ -69,9 +54,9 @@ const AddChore = () => {
         <Box component="form" noValidate
             autoComplete="off" sx={{ display: 'flex', alignItems: 'center' }}>
 
-            <TextField inputRef={nameInput} error={error} helperText={error ? 'Something is wrong, please try again' : ''} id="outlined-basic" name={'name'} label="Name" variant="outlined" />
+            <TextField inputRef={nameInput} id="outlined-basic" name={'name'} label="Name" variant="outlined" />
 
-            <ChoresSelect list={categoriesList} />
+            <ChoresSelect list={data ?? []} />
             <Button onClick={handleChoreAdd}
                 variant="outlined" size="large" sx={{ margin: '8px' }}>
                 Add chore
